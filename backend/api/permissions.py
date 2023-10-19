@@ -8,8 +8,10 @@ class IsSubscribeOnly(permissions.BasePermission):
 
 
 class IsAuthorOrAuthenticatedOrReadOnly(permissions.BasePermission):
-    """Разрешает просмотр всем, пост - авторизованным,
-        изменение и удаление только автору."""
+    """
+    Разрешает просмотр всем, пост - авторизованным,
+     изменение и удаление только автору.
+    """
 
     def has_permission(self, request, view):
         if request.method == 'POST':
@@ -20,3 +22,4 @@ class IsAuthorOrAuthenticatedOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         return obj.author == request.user
+ 

@@ -6,6 +6,9 @@ from django.db import models
 from django.forms import ValidationError
 
 User = get_user_model()
+MAX_INDEX_WITH_TWO_SPACES = 10
+INDEX_INTENT_TWO_SPACES = 2
+INDEX_INTENT_ONE_SPACE = 1
 
 
 def validate_color(value):
@@ -83,7 +86,7 @@ class Recipe(models.Model):
     ingredients = models.ManyToManyField(
         Ingredient,
         through='IngredientAmount',
-        verbose_name='Ингридиенты для приготовления блюда',
+        verbose_name='Ингредиенты для приготовления блюда',
         related_name='recipes'
     )
     tags = models.ManyToManyField(
@@ -138,18 +141,18 @@ class IngredientAmount(models.Model):
         return f'{self.recipe} - {self.ingredient} - {self.amount}'
 
 
-class Favourites(models.Model):
+class Favorite(models.Model):
     """Модель для добавления рецептов в избранное"""
     recipe = models.ForeignKey(
         Recipe,
         verbose_name='Рецепт',
-        related_name='favourite',
+        related_name='favorite',
         on_delete=models.CASCADE
     )
     user = models.ForeignKey(
         User,
         verbose_name='пользователь',
-        related_name='favourite',
+        related_name='favorite',
         on_delete=models.CASCADE
     )
 
@@ -195,14 +198,14 @@ class ShoppingCart(models.Model):
 
         shopping_list_text = 'Список продуктов для покупки.\n'
 
-        for index, ing in enumerate(ingredients_to_buy, 1):
+        for index, ing in enumerate(ingredients_to_buy, INDEX_INTENT_ONE_SPACE):
             ingredient = ing['ingredient__name'].capitalize()
             amount = ing['amount_sum']
             measure = ing['ingredient__measurement_unit']
-            if index < 10:
-                intend = 2
+            if index < MAX_INDEX_WITH_TWO_SPACES:
+                intend = INDEX_INTENT_TWO_SPACES
             else:
-                intend = 1
+                intend = INDEX_INTENT_ONE_SPACE
             new_line = (
                 f'\n{index}.{" " * intend}{ingredient} - {amount} {measure}.'
             )

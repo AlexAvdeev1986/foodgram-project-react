@@ -1,5 +1,4 @@
 from django_filters import rest_framework
-
 from rest_framework import filters
 
 from .views import Recipe, Tag, User
@@ -19,15 +18,19 @@ class RecipeFilter(rest_framework.FilterSet):
         method='is_in_shopping_cart_method')
 
     def is_favorited_method(self, queryset, name, value):
-        """Возвращает рецепты авторов, на которых подписан пользователь
-            или все рецепты в зависимости от запроса."""
+        """
+        Возвращает рецепты авторов, на которых подписан пользователь
+        или все рецепты в зависимости от запроса.
+        """
         if value:
             queryset = queryset.filter(favourite__user=self.request.user)
         return queryset
 
     def is_in_shopping_cart_method(self, queryset, name, value):
-        """Возвращает рецепты, которые внесены в список покупок
-            или все рецепты в зависимости от запроса."""
+        """
+        Возвращает рецепты, которые внесены в список покупок
+        или все рецепты в зависимости от запроса.
+        """
         if value:
             queryset = queryset.filter(
                 in_shopping_cart__user=self.request.user
@@ -40,5 +43,5 @@ class RecipeFilter(rest_framework.FilterSet):
 
 
 class IngredientFilter(filters.SearchFilter):
-    """Меняет старнартный парметр поиска 'search' на 'name'."""
+    """Меняет стандартный парметр поиска 'search' на 'name'."""
     search_param = 'name'

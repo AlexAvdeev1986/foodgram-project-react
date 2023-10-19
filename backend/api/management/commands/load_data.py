@@ -42,4 +42,4 @@ class Command(BaseCommand):
         print("Идет загрузка данных...")
         for сf in csv_files:
             self.csv_loader(сf)
-        print('Загрука завершена.')
+        print('Загрузка завершена.')

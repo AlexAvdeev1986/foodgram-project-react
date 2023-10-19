@@ -11,7 +11,7 @@ from rest_framework.status import HTTP_201_CREATED, HTTP_204_NO_CONTENT
 
 from djoser.views import UserViewSet as DjoserUserViewSet
 
-from recipes.models import (Favourites, Ingredient, Recipe,
+from recipes.models import (Favorite, Ingredient, Recipe,
                             ShoppingCart, Tag, User)
 
 from users.models import Follow
@@ -21,7 +21,6 @@ from .permissions import IsAuthorOrAuthenticatedOrReadOnly, IsSubscribeOnly
 from .serializers import (FavouriteRecipeSerializer, FollowSerializer,
                           IngredientSerializer, RecipeReadSerializer,
                           RecipeWriteSerializer, TagSerializer, UserSerializer)
-
 
 class UserViewSet(DjoserUserViewSet):
     """Вьюсет для работы с пользователями"""
@@ -129,10 +128,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
         )
         serializer.is_valid(raise_exception=True)
         if request.method == 'POST':
-            Favourites.objects.create(user=user, recipe=recipe)
+            Favorite.objects.create(user=user, recipe=recipe)
             return Response(serializer.data, status=HTTP_201_CREATED)
         if request.method == 'DELETE':
-            Favourites.objects.filter(user=user, recipe=recipe).delete()
+            Favorite.objects.filter(user=user, recipe=recipe).delete()
             return Response(status=HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=['post', 'delete'],
