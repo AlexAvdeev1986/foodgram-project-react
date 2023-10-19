@@ -198,7 +198,8 @@ class ShoppingCart(models.Model):
 
         shopping_list_text = 'Список продуктов для покупки.\n'
 
-        for index, ing in enumerate(ingredients_to_buy, INDEX_INTENT_ONE_SPACE):
+        for index, ing in enumerate(ingredients_to_buy, 
+                                    INDEX_INTENT_ONE_SPACE):
             ingredient = ing['ingredient__name'].capitalize()
             amount = ing['amount_sum']
             measure = ing['ingredient__measurement_unit']

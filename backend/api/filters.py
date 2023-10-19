@@ -23,7 +23,7 @@ class RecipeFilter(rest_framework.FilterSet):
         или все рецепты в зависимости от запроса.
         """
         if value:
-            queryset = queryset.filter(favourite__user=self.request.user)
+            queryset = queryset.filter(Favorite__user=self.request.user)
         return queryset
 
     def is_in_shopping_cart_method(self, queryset, name, value):

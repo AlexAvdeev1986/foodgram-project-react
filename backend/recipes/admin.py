@@ -21,17 +21,17 @@ class IngredientInline(admin.TabularInline):
 
 
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'author', 'in_favourite_count')
+    list_display = ('name', 'author', 'in_Favorite_count')
     search_fields = ('name', 'author__username', 'tags__name')
     list_filter = ('name', 'author__username', 'tags__name')
-    readonly_fields = ('in_favourite_count', )
+    readonly_fields = ('in_Favorite_count', )
     inlines = (IngredientInline,)
 
-    def in_favourite_count(self, recipe):
+    def in_Favorite_count(self, recipe):
         """Подсчитывает сколько раз рецепт добавлен в избранное."""
-        return recipe.favourite.count()
+        return recipe.Favorite.count()
 
-    in_favourite_count.short_description = 'В избранном'
+    in_Favorite_count.short_description = 'В избранном'
 
 
 class TagAdmin(admin.ModelAdmin):

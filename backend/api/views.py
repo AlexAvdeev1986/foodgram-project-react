@@ -18,7 +18,7 @@ from users.models import Follow
 
 from .filters import IngredientFilter, RecipeFilter
 from .permissions import IsAuthorOrAuthenticatedOrReadOnly, IsSubscribeOnly
-from .serializers import (FavouriteRecipeSerializer, FollowSerializer,
+from .serializers import (FavoriteRecipeSerializer, FollowSerializer,
                           IngredientSerializer, RecipeReadSerializer,
                           RecipeWriteSerializer, TagSerializer, UserSerializer)
 
@@ -119,7 +119,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
         user = self.request.user
         recipe = get_object_or_404(Recipe, pk=pk)
-        serializer = FavouriteRecipeSerializer(
+        serializer = FavoriteRecipeSerializer(
             recipe, data=request.data,
             context={
                 'request': request,
@@ -141,7 +141,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
         user = self.request.user
         recipe = get_object_or_404(Recipe, pk=pk)
-        serializer = FavouriteRecipeSerializer(
+        serializer = FavoriteRecipeSerializer(
             recipe, data=request.data,
             context={
                 'request': request,
