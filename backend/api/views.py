@@ -11,7 +11,14 @@ from rest_framework.status import HTTP_201_CREATED, HTTP_204_NO_CONTENT
 
 from djoser.views import UserViewSet as DjoserUserViewSet
 
-from recipes.models import Favorite, Ingredient, Recipe, ShoppingCart, Tag, User
+from recipes.models import (
+    Favorite,
+    Ingredient,
+    Recipe,
+    ShoppingCart,
+    Tag,
+    User,
+)
 
 from users.models import Follow
 
@@ -52,7 +59,9 @@ class UserViewSet(DjoserUserViewSet):
         user = self.request.user
         user_following = User.objects.filter(following__user=user)
         page = self.paginate_queryset(user_following)
-        serializer = FollowSerializer(page, context={"request": request}, many=True)
+        serializer = FollowSerializer(
+            page, context={"request": request}, many=True
+        )
         return self.get_paginated_response(serializer.data)
 
     @action(detail=True, methods=["post", "delete"])
@@ -118,7 +127,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
         return RecipeWriteSerializer
 
     @action(
-        detail=True, methods=["post", "delete"], permission_classes=[IsAuthenticated]
+        detail=True,
+        methods=["post", "delete"],
+        permission_classes=[IsAuthenticated],
     )
     def favorite(self, request, pk=None):
         """Добавление и удаление рецепта в избанное."""
@@ -139,7 +150,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return Response(status=HTTP_204_NO_CONTENT)
 
     @action(
-        detail=True, methods=["post", "delete"], permission_classes=[IsAuthenticated]
+        detail=True,
+        methods=["post", "delete"],
+        permission_classes=[IsAuthenticated],
     )
     def shopping_cart(self, request, pk=None):
         """Добавление и удаление рецепта в список покупок."""
@@ -159,12 +172,16 @@ class RecipeViewSet(viewsets.ModelViewSet):
             ShoppingCart.objects.filter(user=user, recipe=recipe).delete()
             return Response(status=HTTP_204_NO_CONTENT)
 
-    @action(detail=False, methods=["get"], permission_classes=[IsAuthenticated])
+    @action(
+        detail=False, methods=["get"], permission_classes=[IsAuthenticated]
+    )
     def download_shopping_cart(self, request):
         """Отдает пользователю список для покупок в виде текстового файла."""
 
         shopping_list_text = ShoppingCart.shopping_list_text(self, request)
         response = HttpResponse(content_type="text/plain")
-        response["Content-Disposition"] = 'attachment; filename="shopping_list.txt"'
+        response[
+            "Content-Disposition"
+        ] = 'attachment; filename="shopping_list.txt"'
         response.write(shopping_list_text)
         return response

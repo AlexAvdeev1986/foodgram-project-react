@@ -28,7 +28,9 @@ def validate_color(value):
 class Ingredient(models.Model):
     """Модель ингредиентов для рецепта"""
 
-    name = models.CharField(verbose_name="Название ингредиента", max_length=200)
+    name = models.CharField(
+        verbose_name="Название ингредиента", max_length=200
+    )
     measurement_unit = models.CharField(
         verbose_name="Единица измерения", max_length=200
     )
@@ -45,11 +47,18 @@ class Ingredient(models.Model):
 class Tag(models.Model):
     """Модель тегов для рецепта"""
 
-    name = models.CharField(verbose_name="Название тега", max_length=200, unique=True)
-    color = models.CharField(
-        verbose_name="Цвет тега", max_length=7, unique=True, validators=[validate_color]
+    name = models.CharField(
+        verbose_name="Название тега", max_length=200, unique=True
     )
-    slug = models.SlugField(verbose_name="Слаг тега", max_length=200, unique=True)
+    color = models.CharField(
+        verbose_name="Цвет тега",
+        max_length=7,
+        unique=True,
+        validators=[validate_color],
+    )
+    slug = models.SlugField(
+        verbose_name="Слаг тега", max_length=200, unique=True
+    )
 
     class Meta:
         verbose_name = "Тег"
@@ -65,7 +74,9 @@ class Recipe(models.Model):
 
     name = models.CharField(verbose_name="Название блюда", max_length=255)
     text = models.TextField(verbose_name="Текст рецепта")
-    pub_date = models.DateTimeField(verbose_name="Дата публикации", auto_now_add=True)
+    pub_date = models.DateTimeField(
+        verbose_name="Дата публикации", auto_now_add=True
+    )
     author = models.ForeignKey(
         User,
         verbose_name="Автор рецепта",
@@ -74,7 +85,9 @@ class Recipe(models.Model):
         related_name="recipes",
     )
     cooking_time = models.PositiveIntegerField(
-        verbose_name="Время приготовления", default=1, validators=[MinValueValidator(1)]
+        verbose_name="Время приготовления",
+        default=1,
+        validators=[MinValueValidator(1)],
     )
     ingredients = models.ManyToManyField(
         Ingredient,
@@ -85,7 +98,9 @@ class Recipe(models.Model):
     tags = models.ManyToManyField(
         Tag, verbose_name="Теги для рецепта", related_name="recipes"
     )
-    image = models.ImageField(verbose_name="Картинка", upload_to="recipes/images/")
+    image = models.ImageField(
+        verbose_name="Картинка", upload_to="recipes/images/"
+    )
 
     class Meta:
         verbose_name = "Рецепт"
@@ -134,7 +149,10 @@ class Favorite(models.Model):
     """Модель для добавления рецептов в избранное"""
 
     recipe = models.ForeignKey(
-        Recipe, verbose_name="Рецепт", related_name="favorite", on_delete=models.CASCADE
+        Recipe,
+        verbose_name="Рецепт",
+        related_name="favorite",
+        on_delete=models.CASCADE,
     )
     user = models.ForeignKey(
         User,
@@ -172,7 +190,8 @@ class ShoppingCart(models.Model):
         verbose_name_plural = "Списки покупок"
         constraints = [
             models.UniqueConstraint(
-                fields=["user", "recipe"], name="unique_recipe_in_shopping_cart"
+                fields=["user", "recipe"],
+                name="unique_recipe_in_shopping_cart",
             )
         ]
 
@@ -191,7 +210,9 @@ class ShoppingCart(models.Model):
 
         shopping_list_text = "Список продуктов для покупки.\n"
 
-        for index, ing in enumerate(ingredients_to_buy, INDEX_INTENT_ONE_SPACE):
+        for index, ing in enumerate(
+            ingredients_to_buy, INDEX_INTENT_ONE_SPACE
+        ):
             ingredient = ing["ingredient__name"].capitalize()
             amount = ing["amount_sum"]
             measure = ing["ingredient__measurement_unit"]
@@ -199,7 +220,9 @@ class ShoppingCart(models.Model):
                 intend = INDEX_INTENT_TWO_SPACES
             else:
                 intend = INDEX_INTENT_ONE_SPACE
-            new_line = f'\n{index}.{" " * intend}{ingredient} - {amount} {measure}.'
+            new_line = (
+                f'\n{index}.{" " * intend}{ingredient} - {amount} {measure}.'
+            )
             shopping_list_text += new_line
         return shopping_list_text
 

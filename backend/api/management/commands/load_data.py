@@ -25,7 +25,9 @@ class Command(BaseCommand):
 
             for row in reader:
                 try:
-                    cf["model"].objects.update_or_create(name=row["name"], defaults=row)
+                    cf["model"].objects.update_or_create(
+                        name=row["name"], defaults=row
+                    )
                     r += 1
                 except Exception as error:
                     print(row)
@@ -36,7 +38,10 @@ class Command(BaseCommand):
                     )
                     err += 1
                 i += 1
-            print(f"Всего: {i} строк. Загружено: {r} строк. " f"Ошибки: {err} строк.")
+            print(
+                f"Всего: {i} строк. Загружено: {r} строк. "
+                f"Ошибки: {err} строк."
+            )
 
     def handle(self, *args, **options):
         print("Идет загрузка данных...")

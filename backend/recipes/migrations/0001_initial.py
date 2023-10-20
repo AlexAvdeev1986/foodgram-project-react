@@ -35,7 +35,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "measurement_unit",
-                    models.CharField(max_length=200, verbose_name="Единица измерения"),
+                    models.CharField(
+                        max_length=200, verbose_name="Единица измерения"
+                    ),
                 ),
             ],
             options={
@@ -92,7 +94,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "name",
-                    models.CharField(max_length=255, verbose_name="Название блюда"),
+                    models.CharField(
+                        max_length=255, verbose_name="Название блюда"
+                    ),
                 ),
                 ("text", models.TextField(verbose_name="Текст рецепта")),
                 (
@@ -105,7 +109,9 @@ class Migration(migrations.Migration):
                     "cooking_time",
                     models.PositiveIntegerField(
                         default=1,
-                        validators=[django.core.validators.MinValueValidator(1)],
+                        validators=[
+                            django.core.validators.MinValueValidator(1)
+                        ],
                         verbose_name="Время приготовления",
                     ),
                 ),
@@ -156,7 +162,9 @@ class Migration(migrations.Migration):
                 (
                     "name",
                     models.CharField(
-                        max_length=200, unique=True, verbose_name="Название тега"
+                        max_length=200,
+                        unique=True,
+                        verbose_name="Название тега",
                     ),
                 ),
                 (
@@ -275,13 +283,15 @@ class Migration(migrations.Migration):
         migrations.AddConstraint(
             model_name="shoppingcart",
             constraint=models.UniqueConstraint(
-                fields=("user", "recipe"), name="unique_recipe_in_shopping_cart"
+                fields=("user", "recipe"),
+                name="unique_recipe_in_shopping_cart",
             ),
         ),
         migrations.AddConstraint(
             model_name="ingredientamount",
             constraint=models.UniqueConstraint(
-                fields=("recipe", "ingredient"), name="unique_ingredient_in_recipe"
+                fields=("recipe", "ingredient"),
+                name="unique_ingredient_in_recipe",
             ),
         ),
     ]
