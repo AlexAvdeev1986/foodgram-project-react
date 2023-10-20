@@ -3,8 +3,9 @@ from rest_framework import permissions
 
 class IsSubscribeOnly(permissions.BasePermission):
     """Разрешает удаление только для действий с подписками."""
+
     def has_permission(self, request, view):
-        return view.action == 'subscribe'
+        return view.action == "subscribe"
 
 
 class IsAuthorOrAuthenticatedOrReadOnly(permissions.BasePermission):
@@ -14,7 +15,7 @@ class IsAuthorOrAuthenticatedOrReadOnly(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
-        if request.method == 'POST':
+        if request.method == "POST":
             return request.user.is_authenticated
         return True
 
@@ -22,4 +23,3 @@ class IsAuthorOrAuthenticatedOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         return obj.author == request.user
- 
