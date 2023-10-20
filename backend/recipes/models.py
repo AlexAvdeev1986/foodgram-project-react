@@ -200,6 +200,7 @@ class ShoppingCart(models.Model):
 
         for index, ing in enumerate(ingredients_to_buy, 
                                     INDEX_INTENT_ONE_SPACE):
+
             ingredient = ing['ingredient__name'].capitalize()
             amount = ing['amount_sum']
             measure = ing['ingredient__measurement_unit']
