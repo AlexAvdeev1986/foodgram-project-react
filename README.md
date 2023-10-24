@@ -58,7 +58,7 @@ docker start db
 1. Подключитесь к удаленному серверу
 
     ```bash
-    ssh -i /home/ea703557/Загрузки/555/yc-ea703557 yc-user@158.160.8.70
+   sudo ssh -i /home/alex/Загрузки/555/yc-ea703557 yc-user@158.160.8.70
 key NRjeSf
  имя_пользователя@ip_адрес_сервера 
     ```
@@ -89,14 +89,14 @@ key NRjeSf
     * username — ваше имя пользователя на сервере;
     * server_ip — IP вашего сервера.g
     ```bash
-    ssh -i /home/ea703557/Загрузки/555/yc-ea703557 yc-user@158.160.8.70
+   sudo ssh -i /home/alex/Загрузки/555/yc-ea703557 yc-user@158.160.8.70
 key NRjeSf
  имя_пользователя@ip_адрес_сервера 
     ```
 
- scp -i /home/ea703557/Загрузки/555/yc-ea703557 docker-compose.production.yml  yc-user@158.160.8.70:/home/yc-user/foodgram/docker-compose.production.yml
+ scp -i /home/alex/Загрузки/555/yc-ea703557 docker-compose.production.yml  yc-user@158.160.8.70:/home/yc-user/foodgram/docker-compose.production.yml
 
- scp -i /home/ea703557/Загрузки/555/yc-ea703557 .env  yc-user@158.160.8.70:/home/yc-user/foodgram/.env
+ scp -i /home/alex/Загрузки/555/yc-ea703557 .env  yc-user@158.160.8.70:/home/yc-user/foodgram/.env
     ```
 
 Далее выполняем последовательно на своем компьютере потом на сервере.
@@ -139,7 +139,7 @@ sudo apt install certbot
 
 7. На сервере в редакторе nano откройте конфиг Nginx:
 ```bash
-    ssh -i /home/ea703557/Загрузки/555/yc-ea703557 yc-user@158.160.8.70
+    sudo ssh -i /home/alex/Загрузки/555/yc-ea703557 yc-user@158.160.8.70
 key NRjeSf
 
 ...8Устанавливаем и настраиваем NGINX
