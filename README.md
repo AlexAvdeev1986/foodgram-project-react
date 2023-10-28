@@ -49,9 +49,9 @@ docker start db
 2. Загрузите образы на DockerHub:
 
     ```bash
-   sudo docker push alex886/foodgram_backend:latest
-   sudo docker push alex886/foodgram_frontend:latest
-   sudo docker push alex886/foodgram_gateway:latest
+    docker push alex886/foodgram_backend:latest
+    docker push alex886/foodgram_frontend:latest
+    docker push alex886/foodgram_gateway:latest
     ```
     sudo docker container ls
 
