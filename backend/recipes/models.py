@@ -151,13 +151,13 @@ class Favorite(models.Model):
     recipe = models.ForeignKey(
         Recipe,
         verbose_name="Рецепт",
-        related_name="favorite",
+        related_name="favorites",
         on_delete=models.CASCADE,
     )
     user = models.ForeignKey(
         User,
         verbose_name="пользователь",
-        related_name="favorite",
+        related_name="favorites",
         on_delete=models.CASCADE,
     )
 
