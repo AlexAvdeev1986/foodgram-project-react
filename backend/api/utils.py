@@ -10,5 +10,5 @@ def ingredient_amount_set(recipe, ingredients_data):
         ingredient = get_object_or_404(Ingredient, id=id)
         amount = ingredient_data.get("amount")
         IngredientAmount.objects.create(
-            recipe=recipe, ingredient=ingredient_id, amount=amount
+            recipe=recipe, ingredient=ingredient, amount=amount
         )
