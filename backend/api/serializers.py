@@ -286,9 +286,9 @@ class FollowSerializer(serializers.ModelSerializer):
                 return data
             raise ValidationError("Такой подписки нет.")
 
-    def get_is_subscribed(self, following):
-        """Возвращает True, т.к. в этом сериализаторе только подписки.""" 
-        return True 
+    def get_is_subscribed(self, *args):
+        """Возвращает True, т.к. в этом сериализаторе только подписки."""
+        return True
 
 
     def get_recipes(self, obj):
