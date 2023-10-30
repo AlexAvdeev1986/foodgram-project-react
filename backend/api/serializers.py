@@ -226,9 +226,6 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
         """Обновляет существующий рецепт."""
         instance.name = validated_data.get("name", instance.name)
         instance.text = validated_data.get("text", instance.text)
-        instance.cooking_time = validated_data.get(
-            "cooking_time", instance.cooking_time
-        )
         tags_data = validated_data.pop("tags")
         ingredients_data = validated_data.pop("ingredients")
         instance.tags.set(tags_data)
