@@ -290,7 +290,6 @@ class FollowSerializer(serializers.ModelSerializer):
         """Возвращает True, т.к. в этом сериализаторе только подписки."""
         return True
 
-
     def get_recipes(self, obj):
         """Возвращает краткие рецепты автора."""
         recipes_limit = int(
