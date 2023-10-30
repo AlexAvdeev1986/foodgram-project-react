@@ -168,7 +168,9 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
     """Сериализатор для добавления и изменения рецептов."""
 
     author = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    tags = serializers.PrimaryKeyRelatedField(queryset=Tag.objects.all(), many=True)
+    tags = serializers.PrimaryKeyRelatedField(
+        queryset=Tag.objects.all(), many=True
+    )
     ingredients = IngredeintAmountSerializer(many=True)
     image = Base64ImageField()
 
@@ -203,7 +205,9 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
         """Валидация тегов."""
         tags_count = Tag.objects.count()
         if not data or len(data) > tags_count:
-            raise ValidationError(f"Количество тегов должно быть от 1 до {tags_count}.")
+            raise ValidationError(
+                f"Количество тегов должно быть от 1 до {tags_count}."
+            )
         if len(data) != len(set(data)):
             raise ValidationError("Введенные теги повторяются.")
         return data
@@ -287,14 +291,18 @@ class FollowSerializer(serializers.ModelSerializer):
         user = self.context.get("request").user
 
         if user.is_authenticated:
-            return Follow.objects.filter(user=user, following=following).exists()
+            return Follow.objects.filter(
+                user=user, following=following
+            ).exists()
 
         return False
 
     def get_recipes(self, obj):
         """Возвращает краткие рецепты автора."""
         recipes_limit = int(
-            self.context["request"].query_params.get("recipes_limit", default=3)
+            self.context["request"].query_params.get(
+                "recipes_limit", default=3
+            )
         )
         recipes = obj.recipes.all()[:recipes_limit]
         serializer = FavouriteRecipeSerializer(recipes, many=True)
