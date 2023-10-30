@@ -57,7 +57,7 @@ class UserViewSet(DjoserUserViewSet):
         """Просмотр своих подписок."""
 
         user = self.request.user
-        user_following = User.objects.filter(following__user=user)
+        user_following = user.following.all()
         page = self.paginate_queryset(user_following)
         serializer = FollowSerializer(
             page, context={"request": request}, many=True
