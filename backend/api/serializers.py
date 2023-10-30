@@ -287,8 +287,14 @@ class FollowSerializer(serializers.ModelSerializer):
             raise ValidationError("Такой подписки нет.")
 
     def get_is_subscribed(self, *args):
-        """Возвращает True, т.к. в этом сериализаторе только подписки."""
-        return True
+        """Returns True if the user is subscribed, else False."""
+        user = self.context.get("request").user
+
+        if user.is_authenticated:
+            return Follow.objects.filter(user=user, following=following).exists()
+
+        return False
+
 
     def get_recipes(self, obj):
         """Возвращает краткие рецепты автора."""
