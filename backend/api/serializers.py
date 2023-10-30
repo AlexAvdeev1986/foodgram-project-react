@@ -168,9 +168,7 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
     """Сериализатор для добавления и изменения рецептов."""
 
     author = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    tags = serializers.PrimaryKeyRelatedField(
-        queryset=Tag.objects.all(), many=True
-    )
+    tags = serializers.PrimaryKeyRelatedField(queryset=Tag.objects.all(), many=True)
     ingredients = IngredeintAmountSerializer(many=True)
     image = Base64ImageField()
 
@@ -205,9 +203,7 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
         """Валидация тегов."""
         tags_count = Tag.objects.count()
         if not data or len(data) > tags_count:
-            raise ValidationError(
-                f"Количество тегов должно быть от 1 до {tags_count}."
-            )
+            raise ValidationError(f"Количество тегов должно быть от 1 до {tags_count}.")
         if len(data) != len(set(data)):
             raise ValidationError("Введенные теги повторяются.")
         return data
@@ -286,8 +282,8 @@ class FollowSerializer(serializers.ModelSerializer):
                 return data
             raise ValidationError("Такой подписки нет.")
 
-    def get_is_subscribed(self, *args):
-        """Returns True if the user is subscribed, else False."""
+    def get_is_subscribed(self, following):
+        """Возвращает True, т.к. в этом сериализаторе только подписки."""
         user = self.context.get("request").user
 
         if user.is_authenticated:
@@ -295,13 +291,10 @@ class FollowSerializer(serializers.ModelSerializer):
 
         return False
 
-
     def get_recipes(self, obj):
         """Возвращает краткие рецепты автора."""
         recipes_limit = int(
-            self.context["request"].query_params.get(
-                "recipes_limit", default=3
-            )
+            self.context["request"].query_params.get("recipes_limit", default=3)
         )
         recipes = obj.recipes.all()[:recipes_limit]
         serializer = FavouriteRecipeSerializer(recipes, many=True)
