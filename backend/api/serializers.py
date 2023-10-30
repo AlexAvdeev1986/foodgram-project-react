@@ -295,7 +295,7 @@ class FollowSerializer(serializers.ModelSerializer):
         if user.is_authenticated:
             return Follow.objects.filter(user=user, following=following).exists()
 
-        return False
+        return True
 
 
     def get_recipes(self, obj):
