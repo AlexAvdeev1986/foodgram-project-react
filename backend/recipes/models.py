@@ -15,7 +15,6 @@ async def validate_color(value):
     """Проверяет цвет тега на уникальность и соответствие hex-color."""
     if (
         await Tag.objects.filter(color__iexact=value).exists()
-        or await Tag.objects.filter(color=value).exists()
     ):
         raise ValidationError("Такой цвет уже занят другим тегом.")
     reg = re.compile(r"^#([a-f0-9]{6}|[A-F0-9]{6})$")
