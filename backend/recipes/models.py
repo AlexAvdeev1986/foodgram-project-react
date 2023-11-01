@@ -11,10 +11,10 @@ INDEX_INTENT_TWO_SPACES = 2
 INDEX_INTENT_ONE_SPACE = 1
 
 
-async def validate_color(value):
+def validate_color(value):
     """Проверяет цвет тега на уникальность и соответствие hex-color."""
     if (
-        await Tag.objects.filter(color__iexact=value).exists()
+        Tag.objects.filter(color__iexact=value).exists()
     ):
         raise ValidationError("Такой цвет уже занят другим тегом.")
     reg = re.compile(r"^#([a-f0-9]{6}|[A-F0-9]{6})$")
