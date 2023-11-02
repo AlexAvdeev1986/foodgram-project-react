@@ -225,13 +225,17 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         """Обновляет существующий рецепт."""
         instance.__dict__.update((key, value) for key, value in validated_data.items() if key in {'name', 'text'})
+    
         tags_data = validated_data.pop("tags")
         ingredients_data = validated_data.pop("ingredients")
+    
         instance.tags.set(tags_data)
         IngredientAmount.objects.filter(recipe=instance).delete()
         ingredient_amount_set(instance, ingredients_data)
+    
         instance.save()
         return instance
+
 
     def to_representation(self, instance):
         serializer = RecipeReadSerializer(instance, context=self.context)
