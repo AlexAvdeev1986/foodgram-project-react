@@ -1,5 +1,6 @@
 from django.db.models import F
 from django.forms import ValidationError
+from django.db import transaction
 
 from rest_framework import serializers
 
@@ -222,16 +223,19 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
         recipe.save()
         return recipe
 
-    def update(self, instance, validated_data): 
-        """Обновляет существующий рецепт.""" 
-        instance.update(**validated_data)
-        tags_data = validated_data.pop("tags") 
-        ingredients_data = validated_data.pop("ingredients") 
-        instance.tags.set(tags_data) 
-        IngredientAmount.objects.filter(recipe=instance).delete() 
-        ingredient_amount_set(instance, ingredients_data) 
-        instance.save() 
-        return instance 
+    def update(self, instance, validated_data):
+        """Обновляет существующий рецепт."""
+        with transaction.atomic():
+            instance.name = validated_data.get("name", instance.name)
+            instance.text = validated_data.get("text", instance.text)
+            instance.tags.set(validated_data.get("tags", instance.tags.all()))
+            # Delete existing IngredientAmount objects
+            IngredientAmount.objects.filter(recipe=instance).delete()
+            # Update ingredient amounts
+            ingredient_amount_set(instance, validated_data.get("ingredients", []))
+            instance.save()
+        return instance
+ 
 
 
     def to_representation(self, instance):
