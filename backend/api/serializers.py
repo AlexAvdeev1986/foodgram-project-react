@@ -1,6 +1,5 @@
 from django.db.models import F
 from django.forms import ValidationError
-from django.db import transaction
 
 from rest_framework import serializers
 
@@ -225,18 +224,18 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         """Обновляет существующий рецепт."""
-        with transaction.atomic():
-            instance.name = validated_data.get("name", instance.name)
-            instance.text = validated_data.get("text", instance.text)
-            instance.tags.set(validated_data.get("tags", instance.tags.all()))
-            # Delete existing IngredientAmount objects
-            IngredientAmount.objects.filter(recipe=instance).delete()
-            # Update ingredient amounts
-            ingredient_amount_set(instance, validated_data.get("ingredients", []))
-            instance.save()
+        instance.name = validated_data.get("name", instance.name)
+        instance.text = validated_data.get("text", instance.text)
+        instance.cooking_time = validated_data.get(
+            "cooking_time", instance.cooking_time
+        )
+        tags_data = validated_data.pop("tags")
+        ingredients_data = validated_data.pop("ingredients")
+        instance.tags.set(tags_data)
+        IngredientAmount.objects.filter(recipe=instance).delete()
+        ingredient_amount_set(instance, ingredients_data)
+        instance.save()
         return instance
- 
-
 
     def to_representation(self, instance):
         serializer = RecipeReadSerializer(instance, context=self.context)
@@ -287,16 +286,9 @@ class FollowSerializer(serializers.ModelSerializer):
                 return data
             raise ValidationError("Такой подписки нет.")
 
-    def get_is_subscribed(self, following):
+    def get_is_subscribed(self, *args):
         """Возвращает True, т.к. в этом сериализаторе только подписки."""
-        user = self.context.get("request").user
-
-        if user.is_authenticated:
-            return Follow.objects.filter(
-                user=user, following=following
-            ).exists()
-
-        return False
+        return True
 
     def get_recipes(self, obj):
         """Возвращает краткие рецепты автора."""
