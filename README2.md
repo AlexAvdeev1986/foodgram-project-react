@@ -112,7 +112,7 @@ sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/col
 sudo docker compose -f docker-compose.production.yml exec backend python manage.py createsuperuser
 
 запускаем 
-docker compose up
+sudo docker compose up
 sudo docker compose -f docker-compose.production.yml up
 
  docker run -e POSTGRES_PASSWORD=foodgram_password -e POSTGRES_USER=foodgram_user postgres:13
