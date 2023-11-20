@@ -96,6 +96,8 @@ key NRjeSf
 
  scp -i /home/alex/Downloads/555/yc-ea703557 docker-compose.production.yml  yc-user@158.160.8.70:/home/yc-user/foodgram/docker-compose.production.yml
 
+scp -i /home/alex/Downloads/555/yc-ea703557 docker-compose.yml  yc-user@158.160.8.70:/home/yc-user/foodgram/docker-composeyml
+
  scp -i /home/alex/Downloads/555/yc-ea703557 .env  yc-user@158.160.8.70:/home/yc-user/foodgram/.env
     ```
 
@@ -118,7 +120,19 @@ sudo docker compose -f docker-compose.production.yml up
  docker run -e POSTGRES_PASSWORD=foodgram_password -e POSTGRES_USER=foodgram_user postgres:13
 
     ```
+sudo docker images
 
+sudo docker ps -a
+
+sudo docker stop Image
+sudo docker rm Image
+sudo docker rmi Image Image
+
+
+удалит все докер образы на сервере которые не используются
+sudo docker system prune 
+
+sudo docker rmi -f $(sudo docker images -q)
 При пуше в ветку master на GitHub будет автоматически произведена сборка образов, пуш на DockerHub, развертывание и запуск контейнеров на сервере.
 
 Дальше необходимо создать суперпользователя для развернутого проекта. Для этого в терминале подключиться к серверу и выполнить команду:
