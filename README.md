@@ -1,348 +1,110 @@
-### Описание проекта 
-foodgram - сервис для любителей котиков.
-
-Что умеет проект:
-
-- Добавлять, просматривать, редактировать и удалять котиков.
-- Добавлять новые и присваивать уже существующие достижения. 
-- Просматривать чужих котов и их достижения.
-
-## Установка 
-
-1. Клонируйте репозиторий на свой компьютер:
-
-    ```bash
-    git clone https://github.com/AlexAvdeev1986/foodgram_final.git
-    ```
-    ```bash
-    cd foodgram_final
-    ```
-2. Создайте файл .env и заполните его своими данными. Перечень данных указан в корневой директории проекта в файле .env.example.
-Fill it with your data
-
-# Database Secrets
-POSTGRES_USER=[database_username]
-POSTGRES_PASSWORD=[database_password]
-POSTGRES_DB=[database_name]
-DB_PORT=[database_connection_port]
-DB_HOST=[db]
+## Проект Foodgram 
 
-# Django Secrets
-SECRET_KEY='SECRET_KEY'
-DEBUG=False
-ALLOWED_HOSTS='your_domain'
-
-### Создание Docker-образов
-docker start db
+Foodgram - продуктовый помощник с базой кулинарных рецептов. Позволяет публиковать рецепты, сохранять избранные, а также формировать список покупок для выбранных рецептов. Можно подписываться на любимых авторов.
 
-1.  Замените username на ваш логин на DockerHub:
+Проект доступен по [адресу](http://alex86foodgram444.ddns.net:8000/recipes)
 
-    ```bash
-    cd backend
-   docker build -t alex886/foodgram_backend:latest .
-    cd frontend
-   docker build -t alex886/foodgram_frontend:latest .
-    cd gateway
-   docker build -t alex886/foodgram_gateway:latest .
-    ```
 
-2. Загрузите образы на DockerHub:
+Документация к API доступна [здесь](158.160.8.70/api/docs/redoc.html)
 
-    ```bash
-    docker push alex886/foodgram_backend:latest
-    docker push alex886/foodgram_frontend:latest
-    docker push alex886/foodgram_gateway:latest
-    ```
-    sudo docker container ls
+В документации описаны возможные запросы к API и структура ожидаемых ответов. Для каждого запроса указаны уровни прав доступа.
 
-1. Подключитесь к удаленному серверу
+### Стек технологий использованный в проекте:
+[![Python](https://img.shields.io/badge/-Python-464646?style=flat&logo=Python&logoColor=ffffff&color=043A6B)](https://www.python.org/)
+[![Django](https://img.shields.io/badge/-Django-464646?style=flat&logo=Django&logoColor=ffffff&color=043A6B)](https://www.djangoproject.com/)
+[![Django REST Framework](https://img.shields.io/badge/-Django%20REST%20Framework-464646?style=flat&logo=Django%20REST%20Framework&logoColor=ffffff&color=043A6B)](https://www.django-rest-framework.org/)
+[![JWT](https://img.shields.io/badge/-JWT-464646?style=flat&color=043A6B)](https://jwt.io/)
+[![Nginx](https://img.shields.io/badge/-NGINX-464646?style=flat&logo=NGINX&logoColor=ffffff&color=043A6B)](https://nginx.org/ru/)
+[![gunicorn](https://img.shields.io/badge/-gunicorn-464646?style=flat&logo=gunicorn&logoColor=ffffff&color=043A6B)](https://gunicorn.org/)
+[![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-464646?style=flat&logo=PostgreSQL&logoColor=ffffff&color=043A6B)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/-Docker-464646?style=flat&logo=Docker&logoColor=ffffff&color=043A6B)](https://www.docker.com/)
+[![Docker-compose](https://img.shields.io/badge/-Docker%20compose-464646?style=flat&logo=Docker&logoColor=ffffff&color=043A6B)](https://www.docker.com/)
+[![Docker Hub](https://img.shields.io/badge/-Docker%20Hub-464646?style=flat&logo=Docker&logoColor=ffffff&color=043A6B)](https://www.docker.com/products/docker-hub)
+[![GitHub%20Actions](https://img.shields.io/badge/-GitHub%20Actions-464646?style=flat&logo=GitHub%20actions&logoColor=ffffff&color=043A6B)](https://github.com/features/actions)
+[![Yandex.Cloud](https://img.shields.io/badge/-Yandex.Cloud-464646?style=flat&logo=Yandex.Cloud&logoColor=ffffff&color=043A6B)](https://cloud.yandex.ru)
 
-    ```bash
-   sudo ssh -i /home/alex/Downloads/555/yc-ea703557 yc-user@158.160.8.70
-key NRjeSf
- имя_пользователя@ip_адрес_сервера 
-    ```
+### Развернуть проект на удаленном сервере:
 
-2. Создайте на сервере директорию foodgram через терминал
+- Клонировать репозиторий:
 
-    ```bash
-    mkdir foodgram
-    ```
+```
+https://github.com/AlexAvdeev1986/foodgram-project-react.git
+```
 
-3. Установка docker compose на сервер:
+- Установить на сервере Docker, Docker Compose:
 
-    ```bash
-    sudo apt update
-    sudo apt --fix-broken install
-    sudo apt install curl
-    curl -fSL https://get.docker.com -o get-docker.sh
-    sudo sh ./get-docker.sh
-    sudo apt-get install docker-compose-plugin
-    ```
+```
+sudo apt update                                         # установка обновлений
+sudo apt upgrade -y
+sudo apt install docker.io                              # установка Докер
+sudo mkdir -p /usr/local/lib/docker/cli-plugins         # установка Докер-компос
+sudo curl -SL https://github.com/docker/compose/releases/download/v2.17.2/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
+sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+```
 
-4. В директорию foodgram/ скопируйте файлы docker-compose.production.yml и .env:
+- Скопировать на сервер файлы docker-compose.yml, default.conf из папки infra (команды выполнять, находясь в папке infra):
 
-    ```bash
-    scp -i path_to_SSH/SSH_name docker-compose.production.yml username@server_ip:/home/username/foodgram/docker-compose.production.yml
-    * ath_to_SSH — путь к файлу с SSH-ключом;
-    * SSH_name — имя файла с SSH-ключом (без расширения);
-    * username — ваше имя пользователя на сервере;
-    * server_ip — IP вашего сервера.g
-    ```bash
-   sudo ssh -i /home/alex/Downloads/555/yc-ea703557 yc-user@158.160.8.70
-key NRjeSf
- имя_пользователя@ip_адрес_сервера 
-    ```
+```
+scp docker-compose.yml default.conf username@IP:/home/username/   # username - имя пользователя на сервере
+                                                                  # IP - публичный IP сервера
+```
 
- scp -i /home/alex/Downloads/555/yc-ea703557 docker-compose.production.yml  yc-user@158.160.8.70:/home/yc-user/foodgram/docker-compose.production.yml
+- Для работы с GitHub Actions необходимо в репозитории в разделе Secrets > Actions создать переменные окружения:
 
-scp -i /home/alex/Downloads/555/yc-ea703557 docker-compose.yml  yc-user@158.160.8.70:/home/yc-user/foodgram/docker-compose.yml
+```
+SECRET_KEY              # секретный ключ Django проекта
+DOCKER_PASSWORD         # пароль от Docker Hub
+DOCKER_USERNAME         # логин Docker Hub
+HOST                    # публичный IP сервера
+USER                    # имя пользователя на сервере
+PASSPHRASE              # *если ssh-ключ защищен паролем
+SSH_KEY                 # приватный ssh-ключ
+TELEGRAM_TO             # ID телеграм-аккаунта для посылки сообщения
+TELEGRAM_TOKEN          # токен бота, посылающего сообщение
 
- scp -i /home/alex/Downloads/555/yc-ea703557 .env  yc-user@158.160.8.70:/home/yc-user/foodgram/.env
-    ```
+DB_ENGINE               # django.db.backends.postgresql
+DB_NAME                 # postgres
+POSTGRES_USER           # postgres
+POSTGRES_PASSWORD       # postgres
+DB_HOST                 # db
+DB_PORT                 # 5432 (порт по умолчанию)
+```
 
-Далее выполняем последовательно на своем компьютере потом на сервере.
-sudo docker compose -f docker-compose.production.yml pull
-sudo docker compose -f docker-compose.production.yml down
-sudo docker compose -f docker-compose.production.yml up -d
-sudo docker compose -f docker-compose.production.yml exec backend python manage.py migrate
-sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic
-sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/collect_static/. /static_backend/static/
+- Создать и запустить контейнеры Docker, выполнить команду на сервере
+*(версии команд "docker compose" или "docker-compose" отличаются в зависимости от установленной версии Docker Compose):*
 
-Создаем суперпользователся. Следуем инструкциям при выполнении.
+```
+sudo docker compose up -d
+```
 
-sudo docker compose -f docker-compose.production.yml exec backend python manage.py createsuperuser
+- После успешной сборки выполнить миграции:
 
-запускаем 
-sudo docker compose up
-sudo docker compose -f docker-compose.production.yml up
+```
+sudo docker compose exec backend python manage.py migrate
+```
 
- docker run -e POSTGRES_PASSWORD=foodgram_password -e POSTGRES_USER=foodgram_user postgres:13
+- Создать суперпользователя:
 
-    ```
+```
+sudo docker compose exec backend python manage.py createsuperuser
+```
 
-sudo ssh -i /home/alex/Downloads/555/yc-ea703557 yc-user@158.160.8.70
-key NRjeSf
+- Собрать статику:
 
-sudo docker images
+```
+sudo docker compose exec backend python manage.py collectstatic --noinput
+```
 
-sudo docker ps -a
+- Для остановки контейнеров Docker:
 
-sudo docker stop Image
-sudo docker rm Image
-sudo docker rmi Image Image
-
-
-удалит все докер образы на сервере которые не используются
-sudo docker system prune 
-
-sudo docker rmi -f $(sudo docker images -q)
-При пуше в ветку master на GitHub будет автоматически произведена сборка образов, пуш на DockerHub, развертывание и запуск контейнеров на сервере.
-
-Дальше необходимо создать суперпользователя для развернутого проекта. Для этого в терминале подключиться к серверу и выполнить команду:
-
-sudo docker exec -it <id контейнера с бэкендом> python manage.py createsuperuser
-можно также выполнить загрузку ингредиентов в базу данных командой:
-
-sudo docker exec -it <id контейнера с бэкендом> python manage.py load_data
-
-
-Certbot - это инструмент, разработанный Let's Encrypt, который упрощает получение и установку SSL-сертификатов. Вы можете установить Certbot на своем сервере с помощью команды:
-sql
-Copy code
-sudo apt update 
-sudo apt-get install python3-certbot-nginx
-sudo apt install certbot
-
-
-7. На сервере в редакторе nano откройте конфиг Nginx:
-```bash
-    sudo ssh -i /home/alex/Downloads/555/yc-ea703557 yc-user@158.160.8.70
-key NRjeSf
-
-...8Устанавливаем и настраиваем NGINX
-Устанавливаем NGINX....
-
-sudo apt install nginx -y
-Запускаем
-sudo systemctl start nginx
-Настраиваем firewall
-sudo ufw allow 'Nginx Full'
-sudo ufw allow OpenSSH
-Включаем firewall
-sudo ufw enable
-
-...Открываем конфигурационный файл NGINX
-sudo nano /etc/nginx/sites-enabled/default
-Полностью удаляем из него все и пишем новые настройки...
-
-1.Пример файла nginx находится в default
-
-
-
-...Сохраняем изменения и выходим из редактора
-Проверяем корректность настроек...
-sudo nginx -t
-
-Запускаем NGINX
-sudo systemctl start nginx
-
-Перезапускаем Nginx
-
-sudo service nginx reload
-
-Настраиваем HTTPS на сервере
-Установка пакетного менеджера snap.
-У этого пакетного менеджера есть нужный вам пакет — certbot.
-Шаг 1. Установка certbot
-Чтобы установить certbot, вам понадобится пакетный менеджер snap. Установите его командой:
-sudo apt install snapd 
-Далее сервер, скорее всего, попросит вам перезагрузить операционную систему. Сделайте это, а потом последовательно выполните команды:
-# Установка и обновление зависимостей для пакетного менеджера snap.
-sudo snap install core; sudo snap refresh core
-# При успешной установке зависимостей в терминале выведется:
-# core 16-2.58.2 from Canonical✓ installed 
-
-# Установка пакета certbot.
-sudo snap install --classic certbot
-# При успешной установке пакета в терминале выведется:
-# certbot 2.3.0 from Certbot Project (certbot-eff✓) installed
-
-# Создание ссылки на certbot в системной директории,
-# чтобы у пользователя с правами администратора был доступ к этому пакету.
-sudo ln -s /snap/bin/certbot /usr/bin/certbot 
-Шаг 2. Запускаем certbot и получаем SSL-сертификат
-Чтобы начать процесс получения сертификата, введите команду:
-
-sudo certbot --nginx 
-
-Откройте файл sudo nano /etc/nginx/sites-enabled/default и убедитесь в этом:
-
-Перезагрузите конфигурацию Nginx:
-sudo systemctl reload nginx 
-
-
-Чтобы узнать актуальный статус сертификата и сколько дней осталось до его перевыпуска, используйте команду:
-
-sudo certbot certificates 
-
-Теперь убедитесь, что сертификат будет обновляться автоматически: 
-sudo certbot renew --dry-run 
-
-Вручную сертификат можно обновить командой:
-sudo certbot renew --pre-hook "service nginx stop" --post-hook "service nginx start" 
-
-
-
-Запустите SSH-агент: Убедитесь, что SSH-агент запущен на вашем локальном компьютере и в него добавлен ваш приватный ключ с помощью ssh-add ...
-
-chmod 600 yc-ea703557
-ssh-add yc-ea703557
-
-chmod 600 authorized_keys
-
-eval "$(ssh-agent -s)"
-
-ssh-add 
-
-ssh-add ~/.ssh/authorized_keys 
-
-полезное 
-
-sudo apt upgrade
-
-посмотреть все докер образы на сервере\
-
-
-
-sudo docker images
-
-sudo docker ps -a
-
-sudo docker stop Image
-sudo docker rm Image
-sudo docker rmi Image Image
-
-
-удалит все докер образы на сервере которые не используются
-sudo docker system prune 
-
-sudo docker rmi -f $(sudo docker images -q)
-
-
-# /etc/nginx/sites-enabled/default
-#Taski
-server {
-
-    root /var/www/html;
-    index index.html index.htm;
-
-    server_name alex86foodgram444.ddns.net;
-
-    location / {
-        proxy_set_header Host $http_host;
-        proxy_pass http://127.0.0.1:8000;
-    }
-
-    listen [::]:443 ssl ipv6only=on; # managed by Certbot
-    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/alex86foodgram444.ddns.net/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/alex86foodgram444.ddns.net/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-
-
-
-}
-server {
-    if ($host = alex86foodgram444.ddns.net) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
-
-
-    listen 80 default_server;
-    listen [::]:80 default_server;
-
-    server_name alex86foodgram444.ddns.net;
-    return 404; # managed by Certbot
-
-
-}
-
-
-
-#kittygram
-#kittygram
-server {
-server_name alex86foodgram444.ddns.net;
-server_tokens off;
-
-location / {
-    proxy_set_header Host $http_host;
-    proxy_pass http://127.0.0.1:9000;
-
-
-}
-
-    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/alex86foodgram444.ddns.net/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/alex86foodgram444.ddns.net/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-
-
-
-}
-server {
-    if ($host = alex86foodgram444.ddns.net) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
-
-
-listen 80;
-server_name alex86foodgram444.ddns.net;
-    return 404; # managed by Certbot
-
-
-}
-
+```
+sudo docker compose down -v      # с их удалением
+sudo docker compose stop         # без удаления
+```
+
+### После каждого обновления репозитория (push в ветку master) будет происходить:
+
+1. Проверка кода на соответствие стандарту PEP8 (с помощью пакета flake8)
+2. Сборка и доставка докер-образов frontend и backend на Docker Hub
+3. Разворачивание проекта на удаленном сервере
+4. Отправка сообщения в Telegram в случае успеха
