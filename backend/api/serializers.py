@@ -233,7 +233,6 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-
     def to_representation(self, instance):
         serializer = RecipeReadSerializer(instance, context=self.context)
         return serializer.data
