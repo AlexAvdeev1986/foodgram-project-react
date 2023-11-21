@@ -239,7 +239,27 @@ sudo docker rmi -f $(sudo docker images -q)
 
 
 
+# Checking Docker version
+docker --version
 
+# Clean up resources from previous jobs
+docker system prune -a
+
+# Create local container network
+docker network create my_network
+
+# Starting Postgres service container
+docker run -d --name postgres_container --network my_network -e POSTGRES_PASSWORD=password -p 5432:5432 postgres:latest
+
+# Waiting for all services to be ready
+# You can add a sleep or use a tool like `wait-for-it.sh` to wait for the Postgres container to be ready before proceeding.
+
+# Service container postgres failed.
+# Check logs for the postgres_container to identify the issue
+docker logs postgres_container
+
+# Error: One or more containers failed to start.
+# Investigate the logs and fix the issue before retrying the container startup.
 
 удалит все докер образы на сервере которые не используются
 sudo docker system prune
