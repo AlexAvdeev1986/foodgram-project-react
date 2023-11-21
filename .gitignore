@@ -102,7 +102,6 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.virtualenv
 .env
 .venv
 env/
@@ -110,8 +109,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-.vscode
-*.bak
+
 # Spyder project settings
 .spyderproject
 .spyproject
@@ -133,4 +131,6 @@ dmypy.json
 # .idea
 .idea
 
-images/
+# папки со статикой и медиа
+media/
+postman-collection/
