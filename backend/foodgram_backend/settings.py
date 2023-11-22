@@ -112,7 +112,7 @@ DJOSER = {
     "HIDE_USERS": False,
 }
 
-CSRF_TRUSTED_ORIGINS = ['http://alex86foodgram444.ddns.net']
+CSRF_TRUSTED_ORIGINS = ['https://alex86foodgram444.ddns.net']
 
 LANGUAGE_CODE = 'ru'
 
