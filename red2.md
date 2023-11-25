@@ -1,113 +1,3 @@
-### Описание проекта
-foodgram - сервис для любителей котиков.
-
-
-
-
-Что умеет проект:
-
-
-
-
-- Добавлять, просматривать, редактировать и удалять котиков.
-- Добавлять новые и присваивать уже существующие достижения.
-- Просматривать чужих котов и их достижения.
-
-
-
-
-## Установка
-
-
-
-
-1. Клонируйте репозиторий на свой компьютер:
-
-
-
-
-  ```bash
-  git clone https://github.com/AlexAvdeev1986/foodgram_final.git
-  ```
-  ```bash
-  cd foodgram_final
-  ```
-2. Создайте файл .env и заполните его своими данными. Перечень данных указан в корневой директории проекта в файле .env.example.
-Fill it with your data
-
-
-
-
-# Database Secrets
-POSTGRES_USER=[database_username]
-POSTGRES_PASSWORD=[database_password]
-POSTGRES_DB=[database_name]
-DB_PORT=[database_connection_port]
-DB_HOST=[db]
-
-
-
-
-# Django Secrets
-SECRET_KEY='SECRET_KEY'
-DEBUG=False
-ALLOWED_HOSTS='your_domain'
-
-
-
-
-### Создание Docker-образов
-docker start db
-
-
-
-
-1.  Замените username на ваш логин на DockerHub:
-
-
-
-
-  ```bash
-  cd backend
- docker build -t alex886/foodgram_backend:latest .
-  cd frontend
- docker build -t alex886/foodgram_frontend:latest .
-  cd gateway
- docker build -t alex886/foodgram_gateway:latest .
-  ```
-
-
-
-
-2. Загрузите образы на DockerHub:
-
-
-
-
-  ```bash
-  docker push alex886/foodgram_backend:latest
-  docker push alex886/foodgram_frontend:latest
-  docker push alex886/foodgram_gateway:latest
-  ```
-  sudo docker container ls
-
-
-
-
-1. Подключитесь к удаленному серверу
-
-
-
-
-  ```bash
- sudo ssh -i /home/alex/Downloads/555/yc-ea703557 yc-user@158.160.8.70
-key NRjeSf
-имя_пользователя@ip_адрес_сервера
-  ```
-
-
-
-
 2. Создайте на сервере директорию foodgram через терминал
 
 
@@ -149,6 +39,7 @@ key NRjeSf
   * username — ваше имя пользователя на сервере;
   * server_ip — IP вашего сервера.g
   ```bash
+
  sudo ssh -i /home/alex/Downloads/555/yc-ea703557 yc-user@158.160.8.70
 key NRjeSf
 имя_пользователя@ip_адрес_сервера
@@ -197,8 +88,18 @@ sudo docker compose -f docker-compose.production.yml exec backend python manage.
 запускаем
 sudo docker compose up
 sudo docker compose -f docker-compose.production.yml up
+sudo docker compose exec backend python manage.py makemigrations
+sudo docker compose exec backend python manage.py migrate --noinput
+sudo docker compose exec backend python manage.py createsuperuser
+sudo docker compose exec backend python manage.py collectstatic --no-input
+sudo docker compose exec backend python manage.py import_csv data/ingredients.csv
+7. Для добавления ингредиентов в базу данных, выполните команду:
+С проектом поставляются данные об ингредиентах.  
+Заполнить базу данных ингредиентами можно выполнив следующую команду:
+```bash
 
 
+```
 
 
 docker run -e POSTGRES_PASSWORD=foodgram_password -e POSTGRES_USER=foodgram_user postgres:13
