@@ -63,23 +63,6 @@ scp -i /home/alex/Downloads/555/yc-ea703557 .env  yc-user@158.160.8.70:/home/yc-
 
 
 
-
-Далее выполняем последовательно на своем компьютере потом на сервере.
-sudo docker compose -f docker-compose.production.yml pull
-sudo docker compose -f docker-compose.production.yml down
-sudo docker compose -f docker-compose.production.yml up -d
-sudo docker compose -f docker-compose.production.yml exec backend python manage.py migrate
-sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic
-sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/collect_static/. /static_backend/static/
-
-
-
-
-Создаем суперпользователся. Следуем инструкциям при выполнении.
-
-
-
-
 sudo docker compose -f docker-compose.production.yml exec backend python manage.py createsuperuser
 
 
@@ -92,12 +75,11 @@ sudo docker compose exec backend python manage.py makemigrations
 sudo docker compose exec backend python manage.py migrate --noinput
 sudo docker compose exec backend python manage.py createsuperuser
 sudo docker compose exec backend python manage.py collectstatic --no-input
-sudo docker compose exec backend python manage.py import_csv data/ingredients.csv
 7. Для добавления ингредиентов в базу данных, выполните команду:
 С проектом поставляются данные об ингредиентах.  
 Заполнить базу данных ингредиентами можно выполнив следующую команду:
 ```bash
-
+sudo docker compose exec backend python manage.py import_csv data/ingredients.csv
 
 ```
 
