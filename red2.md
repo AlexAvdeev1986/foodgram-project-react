@@ -83,6 +83,11 @@ sudo docker compose exec backend python manage.py import_csv data/ingredients.cs
 
 ```
 
+на сервере развернуть 
+sudo docker compose -f docker-compose.production.yml up 
+
+sudo docker compose -f docker-compose.production.yml up -d
+
 
 docker run -e POSTGRES_PASSWORD=foodgram_password -e POSTGRES_USER=foodgram_user postgres:13
 
