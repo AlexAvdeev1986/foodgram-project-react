@@ -1,67 +1,49 @@
-from django.contrib.auth import get_user_model
-from django_filters import FilterSet, filters
-from rest_framework.filters import SearchFilter
+from django_filters import rest_framework
+from rest_framework import filters
 
-from recipes.models import Tag, Recipe
-
-User = get_user_model()
+from .views import Recipe, Tag, User
 
 
-class IngredientFilter(SearchFilter):
-    """Filter by name."""
-    search_param = 'name'
+class RecipeFilter(rest_framework.FilterSet):
+    """Фильтр для рецептов."""
 
-
-class RecipeFilter(FilterSet):
-    """
-    Recipe filter allows you to filter by:
-    -) Author
-    -) Tag
-    -) Is recipe in the shopping cart
-    -) Is recipe in favorite.
-    """
-    author = filters.AllValuesMultipleFilter(
-        field_name='author__id'
-    )
-
-    tags = filters.ModelMultipleChoiceFilter(
-        field_name='tags__slug',
-        to_field_name='slug',
+    author = rest_framework.ModelChoiceFilter(queryset=User.objects.all())
+    tags = rest_framework.ModelMultipleChoiceFilter(
+        field_name="tags__slug",
+        to_field_name="slug",
         queryset=Tag.objects.all(),
     )
-
-    is_in_shopping_cart = filters.NumberFilter(
-        method='get_is_in_shopping_cart',
-        label='shopping_cart',
+    is_favorited = rest_framework.BooleanFilter(method="is_favorited_method")
+    is_in_shopping_cart = rest_framework.BooleanFilter(
+        method="is_in_shopping_cart_method"
     )
 
-    is_favorited = filters.NumberFilter(
-        method='get_is_favorited',
-        label='favorite',
-    )
+    def is_favorited_method(self, queryset, name, value):
+        """
+        Возвращает рецепты авторов, на которых подписан пользователь
+        или все рецепты в зависимости от запроса.
+        """
+        if value:
+            queryset = queryset.filter(Favorite__user=self.request.user)
+        return queryset
+
+    def is_in_shopping_cart_method(self, queryset, name, value):
+        """
+        Возвращает рецепты, которые внесены в список покупок
+        или все рецепты в зависимости от запроса.
+        """
+        if value:
+            queryset = queryset.filter(
+                in_shopping_cart__user=self.request.user
+            )
+        return queryset
 
     class Meta:
         model = Recipe
-        fields = (
-            'id',
-            'tags',
-            'author',
-            'is_favorited',
-            'is_in_shopping_cart',
-        )
+        fields = ["author", "tags"]
 
-    def get_is_favorited(self, queryset, name, value):
-        """Filter checks if the recipe is in favorite."""
-        if value and self.request.user.is_authenticated:
-            return queryset.filter(
-                favorite__user=self.request.user
-            )
-        return queryset
 
-    def get_is_in_shopping_cart(self, queryset, name, value):
-        """Filter checks if the recipe is in the cart."""
-        if value and self.request.user.is_authenticated:
-            return queryset.filter(
-                shoppingcart__user=self.request.user
-            )
-        return queryset
+class IngredientFilter(filters.SearchFilter):
+    """Меняет стандартный парметр поиска 'search' на 'name'."""
+
+    search_param = "name"
