@@ -68,7 +68,7 @@ class IngredientSerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "name", "measurement_unit"]
 
 
-class FavouriteRecipeSerializer(serializers.ModelSerializer):
+class FavoriteRecipeSerializer(serializers.ModelSerializer):
     """Сериализатор для избранных рецептов."""
 
     class Meta:
@@ -294,7 +294,7 @@ class FollowSerializer(serializers.ModelSerializer):
             )
         )
         recipes = obj.recipes.all()[:recipes_limit]
-        serializer = FavouriteRecipeSerializer(recipes, many=True)
+        serializer = FavoriteRecipeSerializer(recipes, many=True)
         return serializer.data
 
     def get_recipes_count(self, following):
