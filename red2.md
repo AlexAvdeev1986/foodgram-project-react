@@ -40,7 +40,7 @@
   * server_ip — IP вашего сервера.g
   ```bash
 
- sudo ssh -i /home/alex/Downloads/555/yc-ea703557 yc-user@158.160.8.70
+ sudo ssh -i /home/alex/Загрузки/555/yc-ea703557 yc-user@158.160.8.70
 key NRjeSf
 имя_пользователя@ip_адрес_сервера
   ```
@@ -52,25 +52,30 @@ key NRjeSf
   pip install django
   pip install djangorestframework
 
-  
-   pipx install djangorestframework
 
 pip install python-decouple
+
+pip install psycopg2-binary
 
 python3 manage.py migrate
 
 
-scp -i /home/alex/Downloads/555/yc-ea703557 docker-compose.production.yml  yc-user@158.160.8.70:/home/yc-user/foodgram/docker-compose.production.yml
+Загружаем на сервер
+
+Правим на компе
+chmod 600 /home/alex/Загрузки/555/yc-ea703557
+
+scp -i /home/alex/Загрузки/555/yc-ea703557 docker-compose.production.yml  yc-user@158.160.8.70:/home/yc-user/foodgram/docker-compose.production.yml
 
 
 
 
-scp -i /home/alex/Downloads/555/yc-ea703557 docker-compose.yml  yc-user@158.160.8.70:/home/yc-user/foodgram/docker-compose.yml
+scp -i /home/alex/Загрузки/555/yc-ea703557 docker-compose.yml  yc-user@158.160.8.70:/home/yc-user/foodgram/docker-compose.yml
 
 
 
 
-scp -i /home/alex/Downloads/555/yc-ea703557 .env  yc-user@158.160.8.70:/home/yc-user/foodgram/.env
+scp -i /home/alex/Загрузки/555/yc-ea703557 .env  yc-user@158.160.8.70:/home/yc-user/foodgram/.env
   ```
 
 
@@ -105,7 +110,7 @@ docker run -e POSTGRES_PASSWORD=foodgram_password -e POSTGRES_USER=foodgram_user
 
 
 
-sudo ssh -i /home/alex/Downloads/555/yc-ea703557 yc-user@158.160.8.70
+sudo ssh -i /home/alex/Загрузки/555/yc-ea703557 yc-user@158.160.8.70
 key NRjeSf
 
 
@@ -199,7 +204,7 @@ sudo apt install certbot
 
 7. На сервере в редакторе nano откройте конфиг Nginx:
 ```bash
-  sudo ssh -i /home/alex/Downloads/555/yc-ea703557 yc-user@158.160.8.70
+  sudo ssh -i /home/alex/Загрузки/555/yc-ea703557 yc-user@158.160.8.70
 key NRjeSf
 
 
