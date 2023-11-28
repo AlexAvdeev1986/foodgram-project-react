@@ -51,6 +51,11 @@ key NRjeSf
 
   pip install django
   pip install djangorestframework
+sudo apt install pipenv
+pipenv install django_filters
+
+pip install --upgrade pip
+pip install -r requirements.txt
 
 
 pip install python-decouple
@@ -83,16 +88,18 @@ sudo docker compose -f docker-compose.production.yml exec backend python manage.
 
 запускаем
 sudo docker compose up
-sudo docker compose -f docker-compose.production.yml up
-sudo docker compose exec backend python manage.py makemigrations
-sudo docker compose exec backend python manage.py migrate --noinput
-sudo docker compose exec backend python manage.py createsuperuser
-sudo docker compose exec backend python manage.py collectstatic --no-input
+sudo docker compose -f docker-compose.production.yml up -d
+sudo docker compose -f docker-compose.production.yml exec backend python manage.py migrate
+sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic
+sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/collected_static/. /backend_static/static/
 7. Для добавления ингредиентов в базу данных, выполните команду:
 С проектом поставляются данные об ингредиентах.  
 Заполнить базу данных ингредиентами можно выполнив следующую команду:
 ```bash
-sudo docker compose exec backend python manage.py import_csv data/ingredients.csv
+sudo docker compose exec backend python manage.py load_data 
+
+sudo docker compose exec backend python manage.py load_data data/ingredients.json
+
 
 ```
 
