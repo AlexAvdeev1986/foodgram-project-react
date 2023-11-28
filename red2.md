@@ -45,7 +45,19 @@ key NRjeSf
 имя_пользователя@ip_адрес_сервера
   ```
 
+ python3 -m venv venv 
+ 
+  source venv/bin/activate
 
+  pip install django
+  pip install djangorestframework
+
+  
+   pipx install djangorestframework
+
+pip install python-decouple
+
+python3 manage.py migrate
 
 
 scp -i /home/alex/Downloads/555/yc-ea703557 docker-compose.production.yml  yc-user@158.160.8.70:/home/yc-user/foodgram/docker-compose.production.yml
