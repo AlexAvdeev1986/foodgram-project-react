@@ -68,11 +68,7 @@ chmod 600 /home/alex/Загрузки/555/yc-ea703557
 scp -i /home/alex/Загрузки/555/yc-ea703557 docker-compose.production.yml  yc-user@158.160.8.70:/home/yc-user/foodgram/docker-compose.production.yml
 
 
-
-
 scp -i /home/alex/Загрузки/555/yc-ea703557 docker-compose.yml  yc-user@158.160.8.70:/home/yc-user/foodgram/docker-compose.yml
-
-
 
 
 scp -i /home/alex/Загрузки/555/yc-ea703557 .env  yc-user@158.160.8.70:/home/yc-user/foodgram/.env
