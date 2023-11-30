@@ -92,16 +92,15 @@ sudo docker compose -f docker-compose.production.yml up -d
 sudo docker compose -f docker-compose.production.yml exec backend python manage.py migrate
 sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic
 sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/collected_static/. /backend_static/static/
+
+sudo docker compose -f docker-compose.production.yml exec backend python manage.py createsuperuser
+
 7. Для добавления ингредиентов в базу данных, выполните команду:
 С проектом поставляются данные об ингредиентах.  
 Заполнить базу данных ингредиентами можно выполнив следующую команду:
 ```bash
-sudo docker compose exec backend python manage.py load_data 
-
-
-
+sudo docker compose exec backend python manage.py fill_data_base
 ```
-
 на сервере развернуть 
 sudo docker compose up 
 sudo docker compose -f docker-compose.production.yml up 
@@ -128,14 +127,11 @@ sudo docker rmi Image Image
 остановить все контейнеры в докер
 sudo docker stop $(sudo docker ps -aq)
 
-
 удалить  все контейнеры в докер
 sudo docker rm $(sudo docker ps -aq)
 
-
 остановить все образы в докер
 sudo docker stop $(sudo docker ps -aq)
-
 
 удалить все образы
 sudo docker rmi -f $(sudo docker images -q)
