@@ -87,7 +87,7 @@ sudo docker compose -f docker-compose.production.yml exec backend python manage.
 
 
 запускаем
-sudo docker compose up
+sudo docker compose up -d
 sudo docker compose -f docker-compose.production.yml up -d
 sudo docker compose -f docker-compose.production.yml exec backend python manage.py migrate
 sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic
@@ -98,12 +98,12 @@ sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/col
 ```bash
 sudo docker compose exec backend python manage.py load_data 
 
-sudo docker compose exec backend python manage.py load_data data/ingredients.json
 
 
 ```
 
 на сервере развернуть 
+sudo docker compose up 
 sudo docker compose -f docker-compose.production.yml up 
 
 sudo docker compose -f docker-compose.production.yml up -d
@@ -112,16 +112,12 @@ sudo docker compose -f docker-compose.production.yml up -d
 docker run -e POSTGRES_PASSWORD=foodgram_password -e POSTGRES_USER=foodgram_user postgres:13
 
 
-
 sudo ssh -i /home/alex/Загрузки/555/yc-ea703557 yc-user@158.160.8.70
 key NRjeSf
 
 
-
 sudo docker images
 sudo docker ps -a
-
-
 
 
 sudo docker stop Image
